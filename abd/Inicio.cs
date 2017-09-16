@@ -19,14 +19,26 @@ namespace abd
             InitializeComponent();
         }
 
-        private void ShowNewForm(object sender, EventArgs e)
+        static public void ShowFormDB(DataGridView dblist) //lanzar selector de base de datos
         {
-            Form childForm = new Form();
-            childForm.MdiParent = this;
-            childForm.Text = "Window " + childFormNumber++;
+            database childForm = new database(dblist);
+            childForm.MdiParent = Application.OpenForms[0];
+            childForm.Text = "Databases";
+            childForm.Height = Application.OpenForms[0].Height -
+                                Application.OpenForms[0].Controls[0].Height -
+                                Application.OpenForms[0].Controls[1].Height - 
+                                Application.OpenForms[0].Controls[2].Height - 45;
+            childForm.Width = Application.OpenForms[0].Width/4;
             childForm.Show();
         }
-
+        private void ShowNewForm(object sender, EventArgs e)
+        {
+            new Conexion().ShowDialog();
+            //Form childForm = new Form();
+            //childForm.MdiParent = this;
+            //childForm.Text = "Window " + childFormNumber++;
+            //childForm.Show();
+        }
         private void OpenFile(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -112,6 +124,16 @@ namespace abd
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new AboutBox1().ShowDialog();
+        }
+
+        private void toolStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void Inicio_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }
