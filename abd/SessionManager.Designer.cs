@@ -1,6 +1,6 @@
 ﻿namespace abd
 {
-    partial class Conexion
+    partial class SessionManager
     {
         /// <summary>
         /// Required designer variable.
@@ -191,8 +191,9 @@
             this.groupBox1.Size = new System.Drawing.Size(306, 258);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Session";            // 
-            // Conexion
+            this.groupBox1.Text = "Session";
+            // 
+            // SessionManager
             // 
             this.AcceptButton = this.btnConectar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,7 +201,8 @@
             this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(326, 276);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Conexion";
+            this.Name = "SessionManager";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Session Manager";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);

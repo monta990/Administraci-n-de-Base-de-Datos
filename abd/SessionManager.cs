@@ -11,11 +11,11 @@ using MySql.Data.MySqlClient;
 
 namespace abd
 {
-    public partial class Conexion : Form
+    public partial class SessionManager : Form
     {
         public string cadena;
         public static MySqlConnection mySqlConnection;
-        public Conexion()
+        public SessionManager()
         {
             InitializeComponent();
         }
@@ -81,7 +81,7 @@ namespace abd
                                 databases.Rows.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            Inicio.ShowFormDB(databases);
+                            Start.ShowFormDB(databases);
                             this.Close();
                         }
                         catch (MySqlException error)
@@ -111,7 +111,7 @@ namespace abd
                                 databases.Rows.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            Inicio.ShowFormDB(databases);
+                            Start.ShowFormDB(databases);
                             this.Close();
                         }
                         catch (MySqlException error)

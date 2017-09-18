@@ -11,9 +11,9 @@ using MySql.Data.MySqlClient;
 
 namespace abd
 {
-    public partial class database : Form
+    public partial class Database : Form
     {
-        public database(DataGridView dblist)
+        public Database(DataGridView dblist)
         {
             InitializeComponent();
             this.dblist = dblist;

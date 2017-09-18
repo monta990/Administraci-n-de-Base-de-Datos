@@ -10,18 +10,18 @@ using System.Windows.Forms;
 
 namespace abd
 {
-    public partial class Inicio : Form
+    public partial class Start : Form
     {
         private int childFormNumber = 0;
 
-        public Inicio()
+        public Start()
         {
             InitializeComponent();
         }
 
         static public void ShowFormDB(DataGridView dblist) //lanzar selector de base de datos
         {
-            database childForm = new database(dblist);
+            Database childForm = new Database(dblist);
             childForm.MdiParent = Application.OpenForms[0];
             childForm.Text = "Databases";
             childForm.Height = Application.OpenForms[0].Height -
@@ -33,7 +33,7 @@ namespace abd
         }
         private void ShowNewForm(object sender, EventArgs e)
         {
-            new Conexion().ShowDialog();
+            new SessionManager().ShowDialog();
             //Form childForm = new Form();
             //childForm.MdiParent = this;
             //childForm.Text = "Window " + childFormNumber++;
@@ -63,7 +63,7 @@ namespace abd
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void CutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -118,7 +118,7 @@ namespace abd
 
         private void sessionAdministratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Conexion().ShowDialog();
+            new SessionManager().ShowDialog();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

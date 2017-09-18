@@ -60,37 +60,37 @@
     <Compile Include="AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Conexion.cs">
+    <Compile Include="SessionManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Conexion.Designer.cs">
-      <DependentUpon>Conexion.cs</DependentUpon>
+    <Compile Include="SessionManager.Designer.cs">
+      <DependentUpon>SessionManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="database.cs">
+    <Compile Include="Database.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="database.Designer.cs">
-      <DependentUpon>database.cs</DependentUpon>
+    <Compile Include="Database.Designer.cs">
+      <DependentUpon>Database.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inicio.cs">
+    <Compile Include="Start.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Inicio.Designer.cs">
-      <DependentUpon>Inicio.cs</DependentUpon>
+    <Compile Include="Start.Designer.cs">
+      <DependentUpon>Start.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Conexion.resx">
-      <DependentUpon>Conexion.cs</DependentUpon>
+    <EmbeddedResource Include="SessionManager.resx">
+      <DependentUpon>SessionManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="database.resx">
-      <DependentUpon>database.cs</DependentUpon>
+    <EmbeddedResource Include="Database.resx">
+      <DependentUpon>Database.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Inicio.resx">
-      <DependentUpon>Inicio.cs</DependentUpon>
+    <EmbeddedResource Include="Start.resx">
+      <DependentUpon>Start.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

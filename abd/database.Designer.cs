@@ -1,6 +1,6 @@
 ﻿namespace abd
 {
-    partial class database
+    partial class Database
     {
         /// <summary>
         /// Required designer variable.
