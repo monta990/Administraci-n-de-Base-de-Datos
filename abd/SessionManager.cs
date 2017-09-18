@@ -88,7 +88,7 @@ namespace abd
                         {
                             MessageBox.Show("Usuario y/o contraseña");
                             mySqlConnection.Close();
-                            MessageBox.Show(error.ToString());
+                            //MessageBox.Show(error.ToString()); //mensaje de debug error
                         }
                     }
                     else //si se especifica base de datos
@@ -118,7 +118,7 @@ namespace abd
                         {
                             MessageBox.Show("Usuario o contraseña y/o tabla erroneos");
                             mySqlConnection.Close();
-                            MessageBox.Show(error.ToString());
+                            //MessageBox.Show(error.ToString());  //mensaje de debug error
                         }
                     }
                     break;

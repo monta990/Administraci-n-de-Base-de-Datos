@@ -17,16 +17,13 @@ namespace abd
         {
             InitializeComponent();
             this.dblist = dblist;
-            //dGVdatabase.DataSource = dblist.DataSource;
         }
         private DataGridView dblist;
         private void database_Load(object sender, EventArgs e)
         {
-            //MessageBox.Show(lector.GetValue(0).ToString());
-            for (int i = 0; i < dblist.Rows.Count-1; i++) //-1 para fix de edición de datagridview
+            for (int i = 0; i < dblist.Rows.Count-1; i++) //-1 para fix de edición de datagridview, ya que al crearlo en SessionManager le deja un row null
             {
                 dGVdatabase.Rows.Add(dblist[0,i].Value.ToString()); // cargar datos
-                //MessageBox.Show(dblist[0, i].Value.ToString());
             }
         }
     }
