@@ -34,10 +34,12 @@ namespace abd
         private void ShowNewForm(object sender, EventArgs e)
         {
             new SessionManager().ShowDialog();
+            #region code to create new childform
             //Form childForm = new Form();
             //childForm.MdiParent = this;
             //childForm.Text = "Window " + childFormNumber++;
             //childForm.Show();
+            #endregion
         }
         private void OpenFile(object sender, EventArgs e)
         {
@@ -114,11 +116,6 @@ namespace abd
             {
                 childForm.Close();
             }
-        }
-
-        private void sessionAdministratorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new SessionManager().ShowDialog();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
