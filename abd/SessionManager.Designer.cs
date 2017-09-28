@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.cBdbm = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbIP = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dUDport = new System.Windows.Forms.DomainUpDown();
@@ -43,6 +43,7 @@
             this.tBdatabase = new System.Windows.Forms.TextBox();
             this.btCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btSelectBD = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,23 +58,27 @@
             // 
             // cBdbm
             // 
+            this.cBdbm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cBdbm.FormattingEnabled = true;
             this.cBdbm.Items.AddRange(new object[] {
             "MySQL",
-            "PostgreSQL"});
+            "PostgreSQL",
+            "MSSQL",
+            "SQLite"});
             this.cBdbm.Location = new System.Drawing.Point(112, 29);
             this.cBdbm.Name = "cBdbm";
             this.cBdbm.Size = new System.Drawing.Size(188, 21);
             this.cBdbm.TabIndex = 1;
+            this.cBdbm.SelectedIndexChanged += new System.EventHandler(this.cBdbm_SelectedIndexChanged);
             // 
-            // label2
+            // lbIP
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 68);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Host Name/IP:";
+            this.lbIP.AutoSize = true;
+            this.lbIP.Location = new System.Drawing.Point(6, 68);
+            this.lbIP.Name = "lbIP";
+            this.lbIP.Size = new System.Drawing.Size(78, 13);
+            this.lbIP.TabIndex = 2;
+            this.lbIP.Text = "Host Name/IP:";
             // 
             // label3
             // 
@@ -97,7 +102,7 @@
             // 
             this.dUDport.Location = new System.Drawing.Point(112, 163);
             this.dUDport.Name = "dUDport";
-            this.dUDport.Size = new System.Drawing.Size(188, 20);
+            this.dUDport.Size = new System.Drawing.Size(60, 20);
             this.dUDport.TabIndex = 5;
             this.dUDport.Text = "3306";
             // 
@@ -114,7 +119,7 @@
             // 
             this.txtHOST.Location = new System.Drawing.Point(112, 65);
             this.txtHOST.Name = "txtHOST";
-            this.txtHOST.Size = new System.Drawing.Size(188, 20);
+            this.txtHOST.Size = new System.Drawing.Size(145, 20);
             this.txtHOST.TabIndex = 7;
             this.txtHOST.Text = "127.0.0.1";
             // 
@@ -172,11 +177,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btSelectBD);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btCancel);
             this.groupBox1.Controls.Add(this.cBdbm);
             this.groupBox1.Controls.Add(this.tBdatabase);
-            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.lbIP);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btnConectar);
@@ -192,6 +198,17 @@
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Session";
+            // 
+            // btSelectBD
+            // 
+            this.btSelectBD.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btSelectBD.Image = global::abd.Properties.Resources.Folder;
+            this.btSelectBD.Location = new System.Drawing.Point(263, 63);
+            this.btSelectBD.Name = "btSelectBD";
+            this.btSelectBD.Size = new System.Drawing.Size(37, 23);
+            this.btSelectBD.TabIndex = 14;
+            this.btSelectBD.UseVisualStyleBackColor = false;
+            this.btSelectBD.Click += new System.EventHandler(this.btSelectBD_Click);
             // 
             // SessionManager
             // 
@@ -215,7 +232,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cBdbm;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbIP;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DomainUpDown dUDport;
@@ -228,6 +245,7 @@
         private System.Windows.Forms.TextBox tBdatabase;
         private System.Windows.Forms.Button btCancel;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btSelectBD;
     }
 }
 
