@@ -194,7 +194,7 @@ namespace abd
                         npgsqlConnection = new NpgsqlConnection(cadena);
                         try
                         {
-                            string query = "SELECT datname FROM pg_database WHERE ;";
+                            string query = "SELECT table_name FROM information_schema.tables WHERE table_schema='"+ tBdatabase.Text +"';"; //muestra las tablas de la bd seleccionada
                             NpgsqlCommand command = new NpgsqlCommand();
                             command.CommandText = query;
                             npgsqlConnection.Open();
