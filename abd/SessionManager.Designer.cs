@@ -35,15 +35,16 @@
             this.label4 = new System.Windows.Forms.Label();
             this.dUDport = new System.Windows.Forms.DomainUpDown();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtHOST = new System.Windows.Forms.TextBox();
+            this.tBhost = new System.Windows.Forms.TextBox();
             this.tBuser = new System.Windows.Forms.TextBox();
             this.tBpass = new System.Windows.Forms.TextBox();
             this.btnConectar = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.tBdatabase = new System.Windows.Forms.TextBox();
             this.btCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btSelectBD = new System.Windows.Forms.Button();
+            this.btTest = new System.Windows.Forms.Button();
+            this.cBdatabases = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +65,8 @@
             "MySQL",
             "PostgreSQL",
             "MSSQL",
-            "SQLite"});
+            "SQLite",
+            "MongoDB"});
             this.cBdbm.Location = new System.Drawing.Point(112, 29);
             this.cBdbm.Name = "cBdbm";
             this.cBdbm.Size = new System.Drawing.Size(188, 21);
@@ -115,13 +117,13 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "Port:";
             // 
-            // txtHOST
+            // tBhost
             // 
-            this.txtHOST.Location = new System.Drawing.Point(112, 65);
-            this.txtHOST.Name = "txtHOST";
-            this.txtHOST.Size = new System.Drawing.Size(145, 20);
-            this.txtHOST.TabIndex = 7;
-            this.txtHOST.Text = "127.0.0.1";
+            this.tBhost.Location = new System.Drawing.Point(112, 65);
+            this.tBhost.Name = "tBhost";
+            this.tBhost.Size = new System.Drawing.Size(145, 20);
+            this.tBhost.TabIndex = 7;
+            this.tBhost.Text = "127.0.0.1";
             // 
             // tBuser
             // 
@@ -157,13 +159,6 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Database";
             // 
-            // tBdatabase
-            // 
-            this.tBdatabase.Location = new System.Drawing.Point(112, 193);
-            this.tBdatabase.Name = "tBdatabase";
-            this.tBdatabase.Size = new System.Drawing.Size(188, 20);
-            this.tBdatabase.TabIndex = 12;
-            // 
             // btCancel
             // 
             this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -177,11 +172,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cBdatabases);
+            this.groupBox1.Controls.Add(this.btTest);
             this.groupBox1.Controls.Add(this.btSelectBD);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btCancel);
             this.groupBox1.Controls.Add(this.cBdbm);
-            this.groupBox1.Controls.Add(this.tBdatabase);
             this.groupBox1.Controls.Add(this.lbIP);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label3);
@@ -191,7 +187,7 @@
             this.groupBox1.Controls.Add(this.dUDport);
             this.groupBox1.Controls.Add(this.tBuser);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtHOST);
+            this.groupBox1.Controls.Add(this.tBhost);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(306, 258);
@@ -209,6 +205,24 @@
             this.btSelectBD.TabIndex = 14;
             this.btSelectBD.UseVisualStyleBackColor = false;
             this.btSelectBD.Click += new System.EventHandler(this.btSelectBD_Click);
+            // 
+            // btTest
+            // 
+            this.btTest.Location = new System.Drawing.Point(112, 225);
+            this.btTest.Name = "btTest";
+            this.btTest.Size = new System.Drawing.Size(75, 23);
+            this.btTest.TabIndex = 15;
+            this.btTest.Text = "Test";
+            this.btTest.UseVisualStyleBackColor = true;
+            this.btTest.Click += new System.EventHandler(this.btTest_Click);
+            // 
+            // cBdatabases
+            // 
+            this.cBdatabases.FormattingEnabled = true;
+            this.cBdatabases.Location = new System.Drawing.Point(112, 193);
+            this.cBdatabases.Name = "cBdatabases";
+            this.cBdatabases.Size = new System.Drawing.Size(188, 21);
+            this.cBdatabases.TabIndex = 16;
             // 
             // SessionManager
             // 
@@ -237,15 +251,16 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DomainUpDown dUDport;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtHOST;
+        private System.Windows.Forms.TextBox tBhost;
         private System.Windows.Forms.TextBox tBuser;
         private System.Windows.Forms.TextBox tBpass;
         private System.Windows.Forms.Button btnConectar;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox tBdatabase;
         private System.Windows.Forms.Button btCancel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btSelectBD;
+        private System.Windows.Forms.Button btTest;
+        private System.Windows.Forms.ComboBox cBdatabases;
     }
 }
 
