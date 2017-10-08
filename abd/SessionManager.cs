@@ -14,7 +14,6 @@ using MongoDB.Driver.Core;
 using MongoDB.Driver;
 using MongoDB.Bson;
 
-
 namespace abd
 {
     public partial class SessionManager : Form
@@ -31,12 +30,12 @@ namespace abd
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            cBdbm.Text = cBdbm.Items[0].ToString(); //combobox a indice 0 (MySQL)
+            cBdbm.Text = cBdbm.Items[0].ToString(); //combobox to Index 0 (MySQL)
             btSelectBD.Visible = false;
             btSelectBD.Enabled = false;
         }
         /// <summary>
-        /// Test conecction
+        /// Test conecctions
         /// </summary>
         /// <param name="manager">Manager</param>
         private void Test(string manager)
@@ -45,27 +44,34 @@ namespace abd
             {
                 case "0": //MySQL
                     #region MySQL
-                    if (tBuser.Text.Trim() == "")
+                    try
                     {
-                        MessageBox.Show("Please put a user");
-                    }
-                    else
-                    {
-                        cadena = "server=" + tBhost.Text + ";port=" + dUDport.Text + ";user=" + tBuser.Text + ";password=" + tBpass.Text; //sin base de datos
-                        MySqlConnection mySqlConnection = new MySqlConnection(cadena);
-                        string bd = "SHOW DATABASES";
-                        MySqlCommand mySqlCommand = new MySqlCommand(); //comando
-                        mySqlCommand.CommandText = bd; //comando a ejecutar
-                        mySqlConnection.Open();
-                        mySqlCommand.Connection = mySqlConnection;
-                        mySqlCommand.ExecuteNonQuery();
-                        MySqlDataReader lector = mySqlCommand.ExecuteReader();
-                        MessageBox.Show("Conexión Exitosa", "Hay conexión", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        while (lector.Read())
+                        if (tBuser.Text.Trim() == "" || tBpass.Text.Trim() == "")
                         {
-                            cBdatabases.Items.Add(lector.GetValue(0).ToString());
+                            MessageBox.Show("Ingress a user and password");
                         }
-                        lector.Close();
+                        else
+                        {
+                            cadena = "server=" + tBhost.Text + ";port=" + dUDport.Text + ";user=" + tBuser.Text + ";password=" + tBpass.Text; //sin base de datos
+                            MySqlConnection mySqlConnection = new MySqlConnection(cadena);
+                            string bd = "SHOW DATABASES";
+                            MySqlCommand mySqlCommand = new MySqlCommand(); //comando
+                            mySqlCommand.CommandText = bd; //comando a ejecutar
+                            mySqlConnection.Open();
+                            mySqlCommand.Connection = mySqlConnection;
+                            mySqlCommand.ExecuteNonQuery();
+                            MySqlDataReader lector = mySqlCommand.ExecuteReader();
+                            MessageBox.Show("Conecction pass", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            while (lector.Read())
+                            {
+                                cBdatabases.Items.Add(lector.GetValue(0).ToString());
+                            }
+                            lector.Close();
+                        }
+                    }
+                    catch (MySqlException Error)
+                    {
+                        MessageBox.Show("Server Down","Check server status",MessageBoxButtons.OK,MessageBoxIcon.Error);
                     }
                     #endregion
                     break;
@@ -75,24 +81,31 @@ namespace abd
                     break;
                 case "3": //SQLite
                     #region SQLite
-                    MessageBox.Show("Not necesary DO a test","Not necesary",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    MessageBox.Show("Not neccesary DO a test","Not neccesary Do a test",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     #endregion
                     break;
                 case "4": //MongoDB
                     #region MongoDB
                     try
                     {
-                        tBhost.Update();
-                        string cadena = "mongodb://" + tBhost.Text + ":" + dUDport.Text;
-                        MongoDBClient = new MongoClient(cadena);
-                        MongoDBClient.GetDatabase(cBdatabases.Text);
-                        if (MongoDBClient.Cluster.Description.State.ToString() == "Disconnected")
+                        if (cBdatabases.Text.Trim() == "")
                         {
-                            MessageBox.Show("Server Down", "Server Down", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Ingress a database name", "No DB name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
-                            MessageBox.Show("Server Up", "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            tBhost.Update();
+                            string cadena = "mongodb://" + tBhost.Text + ":" + dUDport.Text;
+                            MongoDBClient = new MongoClient(cadena);
+                            MongoDBClient.GetDatabase(cBdatabases.Text);
+                            if (MongoDBClient.Cluster.Description.State.ToString() == "Disconnected")
+                            {
+                                MessageBox.Show("Server Down", "Server Down", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Server Up", "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
                         }
                     }
                     catch (MongoConnectionException error)
@@ -136,106 +149,85 @@ namespace abd
             label6.Visible = true;
             cBdatabases.Visible = true;
         }
-        private void cBdbm_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Do a connection to selected DB
+        /// </summary>
+        private void Connection()
         {
             switch (cBdbm.SelectedIndex.ToString())
             {
                 case "0": //MySQL
-                    Enable();
-                    tBhost.Text = "127.0.0.1";
-                    dUDport.Text = "3306";
-                    break;
-                case "1": //PostgrSQL
-                    Enable();
-                    tBhost.Text = "localhost";
-                    dUDport.Text = "5432";
-                    break;
-                case "2": //MSSqlServer
-                    Enable();
-                    tBhost.Text = "127.0.0.1";
-                    dUDport.Text = "";
-                    break;
-                case "3": //SQLite
-                    Disable();
-                    break;
-                case "4": //Mongo
-                    Enable();
-                    tBhost.Text = "127.0.0.1";
-                    dUDport.Text = "27017";
-                    break;
-                case "5": //Reaven
-                    Enable();
-                    break;
-            }
-        }
-
-        private void btnConectar_Click(object sender, EventArgs e)
-        {
-            switch (cBdbm.SelectedIndex.ToString())
-            {
-                case "0": //MySQL
-                    if (cBdatabases.Text.Trim()=="") //conexión si no especificar BD
+                    #region MySql
+                    if (tBpass.Text.Trim() == "" || tBuser.Text.Trim() == "") //check password and user
                     {
-                        cadena = "server=" + tBhost.Text + ";port=" + dUDport.Text + ";user=" + tBuser.Text + ";password=" + tBpass.Text; //sin base de datos
-                        MySqlConnection mySqlConnection = new MySqlConnection(cadena);
-                        try
+                        MessageBox.Show("Ingress a user and password", "Check User and Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        if (cBdatabases.Text.Trim() == "") //conecction if not use DB
                         {
-                            string bd = "SHOW DATABASES";
-                            MySqlCommand mySqlCommand = new MySqlCommand(); //comando
-                            mySqlCommand.CommandText = bd; //comando a ejecutar
-                            mySqlConnection.Open();
-                            mySqlCommand.Connection = mySqlConnection;
-                            mySqlCommand.ExecuteNonQuery();
-                            MySqlDataReader lector = mySqlCommand.ExecuteReader();
-                            DataGridView databases = new DataGridView();
-                            databases.Columns.Add("Column1","Column1");
-                            while (lector.Read())
+                            cadena = "server=" + tBhost.Text + ";port=" + dUDport.Text + ";user=" + tBuser.Text + ";password=" + tBpass.Text; //sin base de datos
+                            MySqlConnection mySqlConnection = new MySqlConnection(cadena);
+                            try
                             {
-                                databases.Rows.Add(lector.GetValue(0).ToString());
+                                string bd = "SHOW DATABASES";
+                                MySqlCommand mySqlCommand = new MySqlCommand(); //comando
+                                mySqlCommand.CommandText = bd; //comando a ejecutar
+                                mySqlConnection.Open();
+                                mySqlCommand.Connection = mySqlConnection;
+                                mySqlCommand.ExecuteNonQuery();
+                                MySqlDataReader lector = mySqlCommand.ExecuteReader();
+                                DataGridView databases = new DataGridView();
+                                databases.Columns.Add("Column1", "Column1");
+                                while (lector.Read())
+                                {
+                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                }
+                                lector.Close();
+                                Start.ShowFormDB(databases);
+                                this.Close();
                             }
-                            lector.Close();
-                            Start.ShowFormDB(databases);
-                            this.Close();
+                            catch (MySqlException error)
+                            {
+                                MessageBox.Show("Server Down", "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                mySqlConnection.Close();
+                            }
                         }
-                        catch (MySqlException error)
+                        else //si se especifica base de datos
                         {
-                            MessageBox.Show("Usuario y/o contraseña");
-                            mySqlConnection.Close();
-                            //MessageBox.Show(error.ToString()); //mensaje de debug error
+                            cadena = "server=" + tBhost.Text + ";port=" + dUDport.Text + ";user=" + tBuser.Text + ";password=" + tBpass.Text + ";Database=" + cBdatabases.Text; //con base de datos
+                            mySqlConnection = new MySqlConnection(cadena);
+                            try
+                            {
+                                string bd = "SHOW DATABASES LIKE '" + cBdatabases.Text + "'";
+                                MySqlCommand mySqlCommand = new MySqlCommand(); //comando
+                                mySqlCommand.CommandText = bd; //comando a ejecutar
+                                mySqlConnection.Open();
+                                mySqlCommand.Connection = mySqlConnection;
+                                mySqlCommand.ExecuteNonQuery();
+                                MySqlDataReader lector = mySqlCommand.ExecuteReader();
+                                DataGridView databases = new DataGridView();
+                                databases.Columns.Add("Column1", "Comlumn1");
+                                while (lector.Read()) //carga de los nombres de las base de datos
+                                {
+                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                }
+                                lector.Close();
+                                Start.ShowFormDB(databases);
+                                this.Close();
+                            }
+                            catch (MySqlException error)
+                            {
+                                MessageBox.Show("Connection error, check your username, password and database and server staus", "Check data and server status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                mySqlConnection.Close();
+                                //MessageBox.Show(error.ToString());  //mensaje de debug error
+                            }
                         }
                     }
-                    else //si se especifica base de datos
-                    {
-                        cadena = "server=" + tBhost.Text + ";port=" + dUDport.Text + ";user=" + tBuser.Text + ";password=" + tBpass.Text + ";Database=" + cBdatabases.Text; //con base de datos
-                        mySqlConnection = new MySqlConnection(cadena);
-                        try
-                        {
-                            string bd = "SHOW DATABASES LIKE '"+ cBdatabases.Text+"'";
-                            MySqlCommand mySqlCommand = new MySqlCommand(); //comando
-                            mySqlCommand.CommandText = bd; //comando a ejecutar
-                            mySqlConnection.Open();
-                            mySqlCommand.Connection = mySqlConnection;
-                            mySqlCommand.ExecuteNonQuery();
-                            MySqlDataReader lector = mySqlCommand.ExecuteReader();
-                            DataGridView databases = new DataGridView();
-                            databases.Columns.Add("Column1", "Comlumn1");
-                            while (lector.Read()) //carga de los nombres de las base de datos
-                            {
-                                databases.Rows.Add(lector.GetValue(0).ToString());
-                            }
-                            lector.Close();
-                            Start.ShowFormDB(databases);
-                            this.Close();
-                        }
-                        catch (MySqlException error)
-                        {
-                            MessageBox.Show("Connection error, check your username, password and database");
-                            mySqlConnection.Close();
-                            //MessageBox.Show(error.ToString());  //mensaje de debug error
-                        }
-                    }
+                    #endregion
                     break;
                 case "1": //PostgreSQL
+                    #region PostgreSQL
                     if (cBdatabases.Text.Trim() == "")
                     {
                         cadena = "Server=" + tBhost.Text + "; Port=" + dUDport.Text + "; User Id=" + tBuser.Text + "; Password=" + tBpass.Text;
@@ -266,11 +258,11 @@ namespace abd
                     }
                     else
                     {
-                        cadena = "Server=" + tBhost.Text + "; Port=" + dUDport.Text + "; User Id=" + tBuser.Text + "; Password=" + tBpass.Text+"; Database="+ cBdatabases.Text+";" ;
+                        cadena = "Server=" + tBhost.Text + "; Port=" + dUDport.Text + "; User Id=" + tBuser.Text + "; Password=" + tBpass.Text + "; Database=" + cBdatabases.Text + ";";
                         npgsqlConnection = new NpgsqlConnection(cadena);
                         try
                         {
-                            string query = "SELECT table_name FROM information_schema.tables WHERE table_schema='"+ cBdatabases.Text +"';"; //muestra las tablas de la bd seleccionada
+                            string query = "SELECT table_name FROM information_schema.tables WHERE table_schema='" + cBdatabases.Text + "';"; //muestra las tablas de la bd seleccionada
                             NpgsqlCommand command = new NpgsqlCommand();
                             command.CommandText = query;
                             npgsqlConnection.Open();
@@ -293,6 +285,7 @@ namespace abd
                             MessageBox.Show("Connection error, check your username, password and database" + NpgsqlError);
                         }
                     }
+                    #endregion
                     break;
                 case "2": //MSSQL Server
                     if (tBhost.Text.Trim() == "")
@@ -306,9 +299,10 @@ namespace abd
 
                     break;
                 case "3": //SQLite
+                    #region SQLite
                     if (tBhost.Text.Trim() == "")
                     {
-                        MessageBox.Show("Browse for a databese or ingress a database name","No Database", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        MessageBox.Show("Browse for a databese or ingress a database name", "No Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -324,40 +318,92 @@ namespace abd
                             MessageBox.Show("Error de conexión: " + sqliterror);
                         }
                     }
+                    #endregion
                     break;
                 case "4": //MongoDB
-                    try
+                    #region MongoDB
+                    if (cBdatabases.Text.Trim() == "")
                     {
-                        tBhost.Update();
-                        string cadena = "mongodb://" + tBhost.Text + ":" + dUDport.Text;
-                        MongoDBClient = new MongoClient(cadena);
-                        MongoDBClient.GetDatabase(cBdatabases.Text);
-                        if (MongoDBClient.Cluster.Description.State.ToString() == "Disconnected")
+                        MessageBox.Show("Ingress a database name", "No DB name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        try
                         {
-                            MessageBox.Show("Server Down","Server Down",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            tBhost.Update();
+                            string cadena = "mongodb://" + tBhost.Text + ":" + dUDport.Text;
+                            MongoDBClient = new MongoClient(cadena);
+                            MongoDBClient.GetDatabase(cBdatabases.Text);
+                            if (MongoDBClient.Cluster.Description.State.ToString() == "Disconnected")
+                            {
+                                MessageBox.Show("Server Down", "Server Down", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Server Up", "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
                         }
-                        else
+                        catch (MongoConnectionException error)
                         {
-                            MessageBox.Show("Server Up", "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(error.ToString());
                         }
                     }
-                    catch (MongoConnectionException error)
-                    {
-                        MessageBox.Show(error.ToString());
-                    }
-                    
+                    #endregion
                     break;
-                case "5":
+                case "5": //ReavenDB
 
                     break;
             }
+        }
+        private void cBdbm_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cBdbm.SelectedIndex.ToString())
+            {
+                case "0": //MySQL
+                    Enable();
+                    tBhost.Text = "127.0.0.1";
+                    dUDport.Text = "3306";
+                    break;
+                case "1": //PostgrSQL
+                    Enable();
+                    tBhost.Text = "localhost";
+                    dUDport.Text = "5432";
+                    break;
+                case "2": //MSSqlServer
+                    Enable();
+                    tBhost.Text = "127.0.0.1";
+                    dUDport.Text = "";
+                    break;
+                case "3": //SQLite
+                    Disable();
+                    break;
+                case "4": //Mongo
+                    Enable();
+                    tBhost.Text = "127.0.0.1";
+                    dUDport.Text = "27017";
+                    break;
+                case "5": //Reaven
+                    Enable();
+                    tBhost.Text = "127.0.0.1";
+                    dUDport.Text = "2713";
+                    break;
+            }
+        }
+
+        private void btnConectar_Click(object sender, EventArgs e)
+        {
+            Connection();
         }
 
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
+        /// <summary>
+        /// Select database for SQLite
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btSelectBD_Click(object sender, EventArgs e)
         {
             OpenFileDialog Db = new OpenFileDialog();
@@ -370,7 +416,7 @@ namespace abd
 
         private void btTest_Click(object sender, EventArgs e)
         {
-            Test(cBdbm.SelectedIndex.ToString());
+            Test(cBdbm.SelectedIndex.ToString()); //prepare test connection
         }
     }
 }
