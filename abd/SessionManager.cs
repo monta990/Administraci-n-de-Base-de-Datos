@@ -61,7 +61,7 @@ namespace abd
                             mySqlCommand.Connection = mySqlConnection;
                             mySqlCommand.ExecuteNonQuery();
                             MySqlDataReader lector = mySqlCommand.ExecuteReader();
-                            MessageBox.Show("Conecction pass", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Conecction Pass", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             while (lector.Read())
                             {
                                 cBdatabases.Items.Add(lector.GetValue(0).ToString());
@@ -389,7 +389,11 @@ namespace abd
                     break;
             }
         }
-
+        /// <summary>
+        /// Connect to DB
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnConectar_Click(object sender, EventArgs e)
         {
             Connection();
@@ -400,7 +404,7 @@ namespace abd
             this.Close();
         }
         /// <summary>
-        /// Select database for SQLite
+        /// Pick database for SQLite
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -413,7 +417,11 @@ namespace abd
                 tBhost.Text = Db.FileName;
             }
         }
-
+        /// <summary>
+        /// Test BD connection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btTest_Click(object sender, EventArgs e)
         {
             Test(cBdbm.SelectedIndex.ToString()); //prepare test connection
