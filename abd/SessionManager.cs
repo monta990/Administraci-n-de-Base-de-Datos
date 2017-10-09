@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
+using System.Data.SqlClient;
 using Npgsql;
 using MongoDB.Driver.Core;
 using MongoDB.Driver;
@@ -19,6 +20,7 @@ namespace abd
     public partial class SessionManager : Form
     {
         public string cadena;
+        public static SqlConnection SqlConnection; //iniciar msssql
         public static MySqlConnection mySqlConnection; //iniciar mysql
         public static NpgsqlConnection npgsqlConnection; //iniciar postgresql
         public static MongoClient MongoDBClient; //iniciar mongo
@@ -288,15 +290,74 @@ namespace abd
                     #endregion
                     break;
                 case "2": //MSSQL Server
-                    if (tBhost.Text.Trim() == "")
+                    #region MSSQL Server
+                    if (tBpass.Text.Trim() == "" || tBuser.Text.Trim() == "") //check password and user
                     {
-                        MessageBox.Show("The host name is empty", "No Hostname", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Ingress a user and password", "Check User and Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
-
+                        if (cBdatabases.Text.Trim() == "") //conecction if not use DB
+                        {
+                            cadena = "Data Source=" + tBhost.Text + "," + dUDport.Text + ";User Id=" + tBuser.Text + ";Password=" + tBpass.Text; //sin base de datos
+                            SqlConnection = new SqlConnection(cadena);
+                            try
+                            {
+                                string bd = "SHOW DATABASES";
+                                SqlCommand SqlCommand = new SqlCommand(); //comando
+                                SqlCommand.CommandText = bd; //comando a ejecutar
+                                SqlConnection.Open();
+                                SqlCommand.Connection = SqlConnection;
+                                SqlCommand.ExecuteNonQuery();
+                                SqlDataReader lector = SqlCommand.ExecuteReader();
+                                DataGridView databases = new DataGridView();
+                                databases.Columns.Add("Column1", "Column1");
+                                while (lector.Read())
+                                {
+                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                }
+                                lector.Close();
+                                Start.ShowFormDB(databases);
+                                this.Close();
+                            }
+                            catch (SqlException error)
+                            {
+                                MessageBox.Show("Server Down", "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                SqlConnection.Close();
+                            }
+                        }
+                        else //si se especifica base de datos
+                        {
+                            cadena = "Data Source=" + tBhost.Text + "," + dUDport.Text + ";User Id=" + tBuser.Text + ";Password=" + tBpass.Text + ";Initial Catalog=" + cBdatabases.Text; //con base de datos
+                            SqlConnection = new SqlConnection(cadena);
+                            try
+                            {
+                                string bd = "SHOW DATABASES LIKE '" + cBdatabases.Text + "'"; //da error
+                                SqlCommand SqlCommand = new SqlCommand(); //comando
+                                SqlCommand.CommandText = bd; //comando a ejecutar
+                                SqlConnection.Open();
+                                SqlCommand.Connection = SqlConnection;
+                                SqlCommand.ExecuteNonQuery();
+                                SqlDataReader lector = SqlCommand.ExecuteReader();
+                                DataGridView databases = new DataGridView();
+                                databases.Columns.Add("Column1", "Comlumn1");
+                                while (lector.Read()) //carga de los nombres de las base de datos
+                                {
+                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                }
+                                lector.Close();
+                                Start.ShowFormDB(databases);
+                                this.Close();
+                            }
+                            catch (SqlException error)
+                            {
+                                MessageBox.Show("Connection error, check your username, password and database and server staus", "Check data and server status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                SqlConnection.Close();
+                                //MessageBox.Show(error.ToString());  //mensaje de debug error
+                            }
+                        }
                     }
-
+                    #endregion
                     break;
                 case "3": //SQLite
                     #region SQLite
@@ -371,8 +432,11 @@ namespace abd
                     break;
                 case "2": //MSSqlServer
                     Enable();
-                    tBhost.Text = "127.0.0.1";
-                    dUDport.Text = "";
+                    tBhost.Text = "SQL7001.SmarterASP.NET";
+                    tBuser.Text = "DB_A2BC3D_perloan_admin";
+                    tBpass.Text = "Elias986";
+                    cBdatabases.Text = "DB_A2BC3D_perloan";
+                    dUDport.Text = "1433";
                     break;
                 case "3": //SQLite
                     Disable();
@@ -398,7 +462,6 @@ namespace abd
         {
             Connection();
         }
-
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.Close();
