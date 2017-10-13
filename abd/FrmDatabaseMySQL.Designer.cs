@@ -1,6 +1,6 @@
 ﻿namespace abd
 {
-    partial class Database
+    partial class FrmDatabaseMySQL
     {
         /// <summary>
         /// Required designer variable.
@@ -30,37 +30,66 @@
         {
             this.dGVdatabase = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dGVtables = new System.Windows.Forms.DataGridView();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dGVdatabase)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dGVtables)).BeginInit();
             this.SuspendLayout();
             // 
             // dGVdatabase
             // 
             this.dGVdatabase.AllowUserToAddRows = false;
             this.dGVdatabase.AllowUserToDeleteRows = false;
+            this.dGVdatabase.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dGVdatabase.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dGVdatabase.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
             this.dGVdatabase.Location = new System.Drawing.Point(1, 1);
             this.dGVdatabase.Name = "dGVdatabase";
             this.dGVdatabase.ReadOnly = true;
-            this.dGVdatabase.Size = new System.Drawing.Size(282, 439);
+            this.dGVdatabase.Size = new System.Drawing.Size(363, 175);
             this.dGVdatabase.TabIndex = 0;
+            this.dGVdatabase.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dGVdatabase_CellDoubleClick);
+            this.dGVdatabase.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dGVdatabase_CellEnter);
             // 
             // Column1
             // 
             this.Column1.HeaderText = "Databases";
             this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
-            // database
+            // dGVtables
+            // 
+            this.dGVtables.AllowUserToAddRows = false;
+            this.dGVtables.AllowUserToDeleteRows = false;
+            this.dGVtables.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dGVtables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dGVtables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column2});
+            this.dGVtables.Location = new System.Drawing.Point(1, 182);
+            this.dGVtables.Name = "dGVtables";
+            this.dGVtables.ReadOnly = true;
+            this.dGVtables.Size = new System.Drawing.Size(363, 175);
+            this.dGVtables.TabIndex = 1;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Tables of ";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // FrmDatabaseMySQL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(371, 364);
+            this.Controls.Add(this.dGVtables);
             this.Controls.Add(this.dGVdatabase);
-            this.Name = "database";
+            this.Name = "FrmDatabaseMySQL";
             this.Text = "database";
             this.Load += new System.EventHandler(this.database_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dGVdatabase)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dGVtables)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -69,5 +98,7 @@
 
         private System.Windows.Forms.DataGridView dGVdatabase;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridView dGVtables;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }
 }

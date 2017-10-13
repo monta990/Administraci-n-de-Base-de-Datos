@@ -169,7 +169,7 @@ namespace abd
                         if (cBdatabases.Text.Trim() == "") //conecction if not use DB
                         {
                             cadena = "server=" + tBhost.Text + ";port=" + dUDport.Text + ";user=" + tBuser.Text + ";password=" + tBpass.Text; //sin base de datos
-                            MySqlConnection mySqlConnection = new MySqlConnection(cadena);
+                            mySqlConnection = new MySqlConnection(cadena);
                             try
                             {
                                 string bd = "SHOW DATABASES";
@@ -186,7 +186,8 @@ namespace abd
                                     databases.Rows.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                Start.ShowFormDB(databases);
+                                mySqlConnection.Close();
+                                Start.ShowFrmDatabaseMySQL(databases);
                                 this.Close();
                             }
                             catch (MySqlException error)
@@ -203,8 +204,8 @@ namespace abd
                             {
                                 string bd = "SHOW DATABASES LIKE '" + cBdatabases.Text + "'";
                                 MySqlCommand mySqlCommand = new MySqlCommand(); //comando
-                                mySqlCommand.CommandText = bd; //comando a ejecutar
-                                mySqlConnection.Open();
+                                mySqlCommand.CommandText = bd;
+                                mySqlConnection.Open();                      
                                 mySqlCommand.Connection = mySqlConnection;
                                 mySqlCommand.ExecuteNonQuery();
                                 MySqlDataReader lector = mySqlCommand.ExecuteReader();
@@ -215,7 +216,8 @@ namespace abd
                                     databases.Rows.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                Start.ShowFormDB(databases);
+                                Start.ShowFrmDatabaseMySQL(databases);
+                                mySqlConnection.Close();
                                 this.Close();
                             }
                             catch (MySqlException error)
@@ -250,7 +252,7 @@ namespace abd
                                 databases.Rows.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            Start.ShowFormDB(databases);
+                            //Start.ShowFormDB(databases);
                             npgsqlConnection.Close();
                         }
                         catch (Exception NpgsqlError)
@@ -278,7 +280,7 @@ namespace abd
                                 databases.Rows.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            Start.ShowFormDB(databases);
+                            //Start.ShowFormDB(databases);
                             //npgsqlConnection.Close();
                             this.Close();
                         }
@@ -303,7 +305,7 @@ namespace abd
                             SqlConnection = new SqlConnection(cadena);
                             try
                             {
-                                string bd = "SHOW DATABASES";
+                                string bd = "USE ";
                                 SqlCommand SqlCommand = new SqlCommand(); //comando
                                 SqlCommand.CommandText = bd; //comando a ejecutar
                                 SqlConnection.Open();
@@ -317,7 +319,7 @@ namespace abd
                                     databases.Rows.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                Start.ShowFormDB(databases);
+                                //Start.ShowFormDB(databases);
                                 this.Close();
                             }
                             catch (SqlException error)
@@ -332,7 +334,7 @@ namespace abd
                             SqlConnection = new SqlConnection(cadena);
                             try
                             {
-                                string bd = "SHOW DATABASES LIKE '" + cBdatabases.Text + "'"; //da error
+                                string bd = "USE '" + cBdatabases.Text + "'"; //da error
                                 SqlCommand SqlCommand = new SqlCommand(); //comando
                                 SqlCommand.CommandText = bd; //comando a ejecutar
                                 SqlConnection.Open();
@@ -346,12 +348,12 @@ namespace abd
                                     databases.Rows.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                Start.ShowFormDB(databases);
+                                //Start.ShowFormDB(databases);
                                 this.Close();
                             }
                             catch (SqlException error)
                             {
-                                MessageBox.Show("Connection error, check your username, password and database and server staus", "Check data and server status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Connection error, check your username, password and database and server staus"+ error.ToString(), "Check data and server status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 SqlConnection.Close();
                                 //MessageBox.Show(error.ToString());  //mensaje de debug error
                             }
