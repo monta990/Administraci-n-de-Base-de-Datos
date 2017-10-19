@@ -92,6 +92,12 @@
     <Compile Include="AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmDatabaseMsSQL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDatabaseMsSQL.Designer.cs">
+      <DependentUpon>FrmDatabaseMsSQL.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmDatabasePostgreSQL.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +126,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDatabaseMsSQL.resx">
+      <DependentUpon>FrmDatabaseMsSQL.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmDatabasePostgreSQL.resx">
       <DependentUpon>FrmDatabasePostgreSQL.cs</DependentUpon>

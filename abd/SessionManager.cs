@@ -20,6 +20,7 @@ namespace abd
     public partial class SessionManager : Form
     {
         public string cadena;
+        private TreeView treedatabes = new TreeView();
         public static SqlConnection SqlConnection; //iniciar msssql
         public static MySqlConnection mySqlConnection; //iniciar mysql
         public static NpgsqlConnection npgsqlConnection; //iniciar postgresql
@@ -179,15 +180,13 @@ namespace abd
                                 mySqlCommand.Connection = mySqlConnection;
                                 mySqlCommand.ExecuteNonQuery();
                                 MySqlDataReader lector = mySqlCommand.ExecuteReader();
-                                DataGridView databases = new DataGridView();
-                                databases.Columns.Add("Column1", "Column1");
                                 while (lector.Read())
                                 {
-                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                    treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
                                 mySqlConnection.Close();
-                                Start.ShowFrmDatabaseMySQL(databases);
+                                Start.ShowFrmDatabaseMySQL(treedatabes);
                                 this.Close();
                             }
                             catch (MySqlException error)
@@ -209,14 +208,12 @@ namespace abd
                                 mySqlCommand.Connection = mySqlConnection;
                                 mySqlCommand.ExecuteNonQuery();
                                 MySqlDataReader lector = mySqlCommand.ExecuteReader();
-                                DataGridView databases = new DataGridView();
-                                databases.Columns.Add("Column1", "Comlumn1");
                                 while (lector.Read()) //carga de los nombres de las base de datos
                                 {
-                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                    treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                Start.ShowFrmDatabaseMySQL(databases);
+                                Start.ShowFrmDatabaseMySQL(treedatabes);
                                 mySqlConnection.Close();
                                 this.Close();
                             }
@@ -245,14 +242,12 @@ namespace abd
                             command.Connection = npgsqlConnection;
                             command.ExecuteNonQuery();
                             NpgsqlDataReader lector = command.ExecuteReader();
-                            DataGridView databases = new DataGridView();
-                            databases.Columns.Add("Column1", "Comlumn1");
                             while (lector.Read()) //carga de los nombres de las base de datos
                             {
-                                databases.Rows.Add(lector.GetValue(0).ToString());
+                                treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            //Start.ShowFormDB(databases);
+                            Start.ShowFrmDatabasePostgreSQL(treedatabes);
                             npgsqlConnection.Close();
                         }
                         catch (Exception NpgsqlError)
@@ -273,15 +268,13 @@ namespace abd
                             command.Connection = npgsqlConnection;
                             command.ExecuteNonQuery();
                             NpgsqlDataReader lector = command.ExecuteReader();
-                            DataGridView databases = new DataGridView();
-                            databases.Columns.Add("Column1", "Comlumn1");
                             while (lector.Read()) //carga de los nombres de las base de datos
                             {
-                                databases.Rows.Add(lector.GetValue(0).ToString());
+                                treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            //Start.ShowFormDB(databases);
-                            //npgsqlConnection.Close();
+                            Start.ShowFrmDatabasePostgreSQL(treedatabes);
+                            npgsqlConnection.Close();
                             this.Close();
                         }
                         catch (Exception NpgsqlError)
@@ -301,11 +294,11 @@ namespace abd
                     {
                         if (cBdatabases.Text.Trim() == "") //conecction if not use DB
                         {
-                            cadena = "Data Source=" + tBhost.Text + "," + dUDport.Text + ";User Id=" + tBuser.Text + ";Password=" + tBpass.Text; //sin base de datos
+                            cadena = "Data Source=" + tBhost.Text + ";User Id=" + tBuser.Text + ";Password=" + tBpass.Text; //sin base de datos
                             SqlConnection = new SqlConnection(cadena);
                             try
                             {
-                                string bd = "USE ";
+                                string bd = "EXEC sp_databases";
                                 SqlCommand SqlCommand = new SqlCommand(); //comando
                                 SqlCommand.CommandText = bd; //comando a ejecutar
                                 SqlConnection.Open();
@@ -319,12 +312,12 @@ namespace abd
                                     databases.Rows.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                //Start.ShowFormDB(databases);
+                                //Start.ShowFrmDatabaseMySQL(databases);
                                 this.Close();
                             }
                             catch (SqlException error)
                             {
-                                MessageBox.Show("Server Down", "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Server Down " + error, "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 SqlConnection.Close();
                             }
                         }
@@ -434,10 +427,9 @@ namespace abd
                     break;
                 case "2": //MSSqlServer
                     Enable();
-                    tBhost.Text = "SQL7001.SmarterASP.NET";
-                    tBuser.Text = "DB_A2BC3D_perloan_admin";
-                    tBpass.Text = "Elias986";
-                    cBdatabases.Text = "DB_A2BC3D_perloan";
+                    tBhost.Text = @"LAPDELL\SQLEXPRESS";
+                    tBuser.Text = "sa";
+                    tBpass.Text = "elias986";
                     dUDport.Text = "1433";
                     break;
                 case "3": //SQLite

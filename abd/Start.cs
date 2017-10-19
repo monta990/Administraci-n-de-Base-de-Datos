@@ -19,14 +19,26 @@ namespace abd
             InitializeComponent();
         }
 
-        static public void ShowFrmDatabaseMySQL(DataGridView dblist) //lanzar selector de base de datos MySQL
+        static public void ShowFrmDatabaseMySQL(TreeView treedatabases) //lanzar selector de base de datos MySQL
         {
-            FrmDatabaseMySQL childForm = new FrmDatabaseMySQL(dblist);
+            FrmDatabaseMySQL childForm = new FrmDatabaseMySQL(treedatabases);
             childForm.MdiParent = Application.OpenForms[0];
             childForm.Text = "Databases MySQL";
             childForm.Height = Application.OpenForms[0].Height -
                                 Application.OpenForms[0].Controls[0].Height -
                                 Application.OpenForms[0].Controls[1].Height - 
+                                Application.OpenForms[0].Controls[2].Height - 45;
+            childForm.Width = 380;
+            childForm.Show();
+        }
+        static public void ShowFrmDatabasePostgreSQL(TreeView treedatabases) //lanzar selector de base de datos MySQL
+        {
+            FrmDatabasePostgreSQL childForm = new FrmDatabasePostgreSQL(treedatabases);
+            childForm.MdiParent = Application.OpenForms[0];
+            childForm.Text = "Databases PostgreSQL";
+            childForm.Height = Application.OpenForms[0].Height -
+                                Application.OpenForms[0].Controls[0].Height -
+                                Application.OpenForms[0].Controls[1].Height -
                                 Application.OpenForms[0].Controls[2].Height - 45;
             childForm.Width = 380;
             childForm.Show();

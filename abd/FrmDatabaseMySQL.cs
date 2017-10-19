@@ -13,52 +13,51 @@ namespace abd
 {
     public partial class FrmDatabaseMySQL : Form
     {
-        public FrmDatabaseMySQL(DataGridView dblist)
+        public FrmDatabaseMySQL(TreeView treedatabases)
         {
             InitializeComponent();
-            this.dblist = dblist;
+            this.treedatabases = treedatabases;
         }
-        private DataGridView dblist;
+        private TreeView treedatabases;
         private void database_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < dblist.Rows.Count-1; i++) //-1 para fix de edición de datagridview, ya que al crearlo en SessionManager le deja un row null
+            for (int i = 0; i < treedatabases.Nodes.Count; i++)
             {
-                dGVdatabase.Rows.Add(dblist[0,i].Value.ToString()); // cargar datos
+                tVdata.Nodes.Add(treedatabases.Nodes[i].ToString().Remove(0,9));
             }
         }
 
-        private void dGVdatabase_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             MySqlConnection mySqlConnection = SessionManager.mySqlConnection;
             try
             {
-                string bd = "USE "+ dGVdatabase.CurrentCell.Value.ToString() +"; SHOW TABLES";
+                string bd = "USE " + tVdata.SelectedNode.Text + "; SHOW TABLES";
                 MySqlCommand mySqlCommand = new MySqlCommand(); //comando
                 mySqlCommand.CommandText = bd; //comando a ejecutar
                 mySqlConnection.Open();
                 mySqlCommand.Connection = mySqlConnection;
                 mySqlCommand.ExecuteNonQuery();
                 MySqlDataReader lector = mySqlCommand.ExecuteReader();
-                dGVtables.Rows.Clear();
-                dGVtables.Columns.Clear();
-                dGVtables.Columns.Add("Tables", "Tables of "+ dGVdatabase.CurrentCell.Value.ToString());
-                while (lector.Read())
+                if (tVdata.Nodes[tVdata.SelectedNode.Index].Nodes.Count >= 1)
                 {
-                    dGVtables.Rows.Add(lector.GetValue(0).ToString());
+                    tVdata.Nodes[tVdata.SelectedNode.Index].Nodes.Clear();
+                }
+                else
+                {
+                    while (lector.Read())
+                    {
+                        tVdata.Nodes[tVdata.SelectedNode.Index].Nodes.Add(lector.GetString(0));
+                    }
                 }
                 lector.Close();
                 mySqlConnection.Close();
             }
             catch (MySqlException error)
             {
-                MessageBox.Show("Server Down", "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Server Down "+error, "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 mySqlConnection.Close();
             }
-        }
-
-        private void dGVdatabase_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            dGVdatabase_CellDoubleClick(sender, e);
         }
     }
 }

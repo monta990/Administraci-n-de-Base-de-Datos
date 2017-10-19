@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace abd
 {
-    public partial class FrmDatabasePostgreSQL : Form
+    public partial class FrmDatabaseMsSQL : Form
     {
-        public FrmDatabasePostgreSQL(TreeView treedatabases)
+        public FrmDatabaseMsSQL()
         {
             InitializeComponent();
         }

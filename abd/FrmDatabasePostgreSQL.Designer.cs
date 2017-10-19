@@ -28,74 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dGVtables = new System.Windows.Forms.DataGridView();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dGVdatabase = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dGVtables)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dGVdatabase)).BeginInit();
+            this.tVdata = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
-            // dGVtables
+            // tVdata
             // 
-            this.dGVtables.AllowUserToAddRows = false;
-            this.dGVtables.AllowUserToDeleteRows = false;
-            this.dGVtables.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dGVtables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGVtables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column2});
-            this.dGVtables.Location = new System.Drawing.Point(5, 184);
-            this.dGVtables.Name = "dGVtables";
-            this.dGVtables.ReadOnly = true;
-            this.dGVtables.Size = new System.Drawing.Size(363, 175);
-            this.dGVtables.TabIndex = 3;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Tables of ";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // dGVdatabase
-            // 
-            this.dGVdatabase.AllowUserToAddRows = false;
-            this.dGVdatabase.AllowUserToDeleteRows = false;
-            this.dGVdatabase.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dGVdatabase.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGVdatabase.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1});
-            this.dGVdatabase.Location = new System.Drawing.Point(5, 3);
-            this.dGVdatabase.Name = "dGVdatabase";
-            this.dGVdatabase.ReadOnly = true;
-            this.dGVdatabase.Size = new System.Drawing.Size(363, 175);
-            this.dGVdatabase.TabIndex = 2;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Databases";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
+            this.tVdata.Location = new System.Drawing.Point(0, 1);
+            this.tVdata.Name = "tVdata";
+            this.tVdata.Size = new System.Drawing.Size(373, 360);
+            this.tVdata.TabIndex = 0;
             // 
             // FrmDatabasePostgreSQL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(372, 362);
-            this.Controls.Add(this.dGVtables);
-            this.Controls.Add(this.dGVdatabase);
+            this.Controls.Add(this.tVdata);
             this.Name = "FrmDatabasePostgreSQL";
             this.Text = "FrmDatabasePostgreSQL";
-            ((System.ComponentModel.ISupportInitialize)(this.dGVtables)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dGVdatabase)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dGVtables;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridView dGVdatabase;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.TreeView tVdata;
     }
 }
