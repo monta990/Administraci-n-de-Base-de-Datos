@@ -70,6 +70,7 @@ namespace abd
                                 cBdatabases.Items.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
+                            mySqlConnection.Close();
                         }
                     }
                     catch (MySqlException Error)
@@ -81,6 +82,30 @@ namespace abd
                 case "1": //PostgrSQL
                     break;
                 case "2": //MSSQLServer
+                    cadena = "Data Source=" + tBhost.Text + ";User Id=" + tBuser.Text + ";Password=" + tBpass.Text; //sin base de datos
+                    SqlConnection = new SqlConnection(cadena);
+                    try
+                    {
+                        string bd = "EXEC sp_databases";
+                        SqlCommand SqlCommand = new SqlCommand(); //comando
+                        SqlCommand.CommandText = bd; //comando a ejecutar
+                        SqlConnection.Open();
+                        SqlCommand.Connection = SqlConnection;
+                        SqlCommand.ExecuteNonQuery();
+                        SqlDataReader lector = SqlCommand.ExecuteReader();
+                        MessageBox.Show("Conecction Pass", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        while (lector.Read())
+                        {
+                            cBdatabases.Items.Add(lector.GetValue(0).ToString());
+                        }
+                        lector.Close();
+                        SqlConnection.Close();
+                    }
+                    catch (SqlException error)
+                    {
+                        MessageBox.Show("Server Down " + error, "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        SqlConnection.Close();
+                    }
                     break;
                 case "3": //SQLite
                     #region SQLite
@@ -305,14 +330,13 @@ namespace abd
                                 SqlCommand.Connection = SqlConnection;
                                 SqlCommand.ExecuteNonQuery();
                                 SqlDataReader lector = SqlCommand.ExecuteReader();
-                                DataGridView databases = new DataGridView();
-                                databases.Columns.Add("Column1", "Column1");
                                 while (lector.Read())
                                 {
-                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                    treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                //Start.ShowFrmDatabaseMySQL(databases);
+                                SqlConnection.Close();
+                                Start.ShowFrmDatabaseMSSQL(treedatabes);
                                 this.Close();
                             }
                             catch (SqlException error)
@@ -327,21 +351,20 @@ namespace abd
                             SqlConnection = new SqlConnection(cadena);
                             try
                             {
-                                string bd = "USE '" + cBdatabases.Text + "'"; //da error
+                                string bd = "SELECT * FROM information_schema.tables WHERE TABLE_TYPE='" + cBdatabases.Text + "' AND TABLE_SCHEMA = 'dbo'";
                                 SqlCommand SqlCommand = new SqlCommand(); //comando
                                 SqlCommand.CommandText = bd; //comando a ejecutar
                                 SqlConnection.Open();
                                 SqlCommand.Connection = SqlConnection;
                                 SqlCommand.ExecuteNonQuery();
                                 SqlDataReader lector = SqlCommand.ExecuteReader();
-                                DataGridView databases = new DataGridView();
-                                databases.Columns.Add("Column1", "Comlumn1");
                                 while (lector.Read()) //carga de los nombres de las base de datos
                                 {
-                                    databases.Rows.Add(lector.GetValue(0).ToString());
+                                    treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                //Start.ShowFormDB(databases);
+                                SqlConnection.Close();
+                                Start.ShowFrmDatabaseMSSQL(treedatabes);
                                 this.Close();
                             }
                             catch (SqlException error)
@@ -429,7 +452,7 @@ namespace abd
                     Enable();
                     tBhost.Text = @"LAPDELL\SQLEXPRESS";
                     tBuser.Text = "sa";
-                    tBpass.Text = "elias986";
+                    tBpass.Text = "alvarez";
                     dUDport.Text = "1433";
                     break;
                 case "3": //SQLite
