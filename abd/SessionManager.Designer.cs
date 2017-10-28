@@ -42,9 +42,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btSelectBD = new System.Windows.Forms.Button();
-            this.btTest = new System.Windows.Forms.Button();
             this.cBdatabases = new System.Windows.Forms.ComboBox();
+            this.btTest = new System.Windows.Forms.Button();
+            this.btSelectBD = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,7 +66,8 @@
             "PostgreSQL",
             "MSSQL",
             "SQLite",
-            "MongoDB"});
+            "MongoDB",
+            "RavenDB"});
             this.cBdbm.Location = new System.Drawing.Point(112, 29);
             this.cBdbm.Name = "cBdbm";
             this.cBdbm.Size = new System.Drawing.Size(188, 21);
@@ -195,16 +196,13 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Session";
             // 
-            // btSelectBD
+            // cBdatabases
             // 
-            this.btSelectBD.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btSelectBD.Image = global::abd.Properties.Resources.Folder;
-            this.btSelectBD.Location = new System.Drawing.Point(263, 63);
-            this.btSelectBD.Name = "btSelectBD";
-            this.btSelectBD.Size = new System.Drawing.Size(37, 23);
-            this.btSelectBD.TabIndex = 14;
-            this.btSelectBD.UseVisualStyleBackColor = false;
-            this.btSelectBD.Click += new System.EventHandler(this.btSelectBD_Click);
+            this.cBdatabases.FormattingEnabled = true;
+            this.cBdatabases.Location = new System.Drawing.Point(112, 193);
+            this.cBdatabases.Name = "cBdatabases";
+            this.cBdatabases.Size = new System.Drawing.Size(188, 21);
+            this.cBdatabases.TabIndex = 16;
             // 
             // btTest
             // 
@@ -216,13 +214,16 @@
             this.btTest.UseVisualStyleBackColor = true;
             this.btTest.Click += new System.EventHandler(this.btTest_Click);
             // 
-            // cBdatabases
+            // btSelectBD
             // 
-            this.cBdatabases.FormattingEnabled = true;
-            this.cBdatabases.Location = new System.Drawing.Point(112, 193);
-            this.cBdatabases.Name = "cBdatabases";
-            this.cBdatabases.Size = new System.Drawing.Size(188, 21);
-            this.cBdatabases.TabIndex = 16;
+            this.btSelectBD.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btSelectBD.Image = global::abd.Properties.Resources.Folder;
+            this.btSelectBD.Location = new System.Drawing.Point(263, 63);
+            this.btSelectBD.Name = "btSelectBD";
+            this.btSelectBD.Size = new System.Drawing.Size(37, 23);
+            this.btSelectBD.TabIndex = 14;
+            this.btSelectBD.UseVisualStyleBackColor = false;
+            this.btSelectBD.Click += new System.EventHandler(this.btSelectBD_Click);
             // 
             // SessionManager
             // 

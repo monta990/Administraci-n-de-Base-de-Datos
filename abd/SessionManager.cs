@@ -14,6 +14,11 @@ using Npgsql;
 using MongoDB.Driver.Core;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using Raven.Client.Connection;
+using Raven.Abstractions.Data;
+using Raven.Client.Document;
+using Raven.Json;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace abd
 {
@@ -26,11 +31,33 @@ namespace abd
         public static NpgsqlConnection npgsqlConnection; //iniciar postgresql
         public static MongoClient MongoDBClient; //iniciar mongo
         public static IMongoDatabase MongoDatabase;
+        private string nouserandpassword="Input username and password";
         public SessionManager()
         {
             InitializeComponent();
         }
 
+        #region Clase raven de te
+        public class Tea
+        {
+            public String Id { get; set; }
+
+            public String Name { get; set; }
+
+            public TeaType TeaType { get; set; }
+
+            public Double WaterTemp { get; set; }
+
+            public Int32 SleepTime { get; set; }
+        }
+        public enum TeaType
+        {
+            Black,
+            Green,
+            Yellow,
+            Oolong
+        }
+        #endregion
         private void Form1_Load(object sender, EventArgs e)
         {
             cBdbm.Text = cBdbm.Items[0].ToString(); //combobox to Index 0 (MySQL)
@@ -51,7 +78,7 @@ namespace abd
                     {
                         if (tBuser.Text.Trim() == "" || tBpass.Text.Trim() == "")
                         {
-                            MessageBox.Show("Ingress a user and password");
+                            MessageBox.Show(nouserandpassword,"Check user and password", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
@@ -82,34 +109,58 @@ namespace abd
                 case "1": //PostgrSQL
                     break;
                 case "2": //MSSQLServer
-                    cadena = "Data Source=" + tBhost.Text + ";User Id=" + tBuser.Text + ";Password=" + tBpass.Text; //sin base de datos
-                    SqlConnection = new SqlConnection(cadena);
-                    try
+                    if (tBuser.Text.Trim() == "" || tBpass.Text.Trim() == "")
                     {
-                        string bd = "EXEC sp_databases";
-                        SqlCommand SqlCommand = new SqlCommand(); //comando
-                        SqlCommand.CommandText = bd; //comando a ejecutar
-                        SqlConnection.Open();
-                        SqlCommand.Connection = SqlConnection;
-                        SqlCommand.ExecuteNonQuery();
-                        SqlDataReader lector = SqlCommand.ExecuteReader();
-                        MessageBox.Show("Conecction Pass", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        while (lector.Read())
-                        {
-                            cBdatabases.Items.Add(lector.GetValue(0).ToString());
-                        }
-                        lector.Close();
-                        SqlConnection.Close();
+                        MessageBox.Show(nouserandpassword, "Check user and password", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    catch (SqlException error)
+                    else
                     {
-                        MessageBox.Show("Server Down " + error, "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        SqlConnection.Close();
+                        cadena = "Data Source=" + tBhost.Text + ";User Id=" + tBuser.Text + ";Password=" + tBpass.Text; //sin base de datos
+                        SqlConnection = new SqlConnection(cadena);
+                        try
+                        {
+                            string bd = "EXEC sp_databases";
+                            SqlCommand SqlCommand = new SqlCommand(); //comando
+                            SqlCommand.CommandText = bd; //comando a ejecutar
+                            SqlConnection.Open();
+                            SqlCommand.Connection = SqlConnection;
+                            SqlCommand.ExecuteNonQuery();
+                            SqlDataReader lector = SqlCommand.ExecuteReader();
+                            MessageBox.Show("Conecction Pass", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            while (lector.Read())
+                            {
+                                cBdatabases.Items.Add(lector.GetValue(0).ToString());
+                            }
+                            lector.Close();
+                            SqlConnection.Close();
+                        }
+                        catch (SqlException error)
+                        {
+                            MessageBox.Show("Server Down " + error, "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            SqlConnection.Close();
+                        }
                     }
                     break;
                 case "3": //SQLite
                     #region SQLite
-                    MessageBox.Show("Not neccesary DO a test","Not neccesary Do a test",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    if (tBhost.Text.Trim() == "")
+                    {
+                        MessageBox.Show("Please browse for a db file before DO a test", "No Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            SQLiteConnection SQLiteconect = new SQLiteConnection("Data Source = " + tBhost.Text);
+                            SQLiteconect.Open();
+                            MessageBox.Show("Connected to BD file", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            SQLiteconect.Close();
+                        }
+                        catch (SQLiteException sqliterror)
+                        {
+                            MessageBox.Show("Error: " + sqliterror);
+                        }
+                    }
                     #endregion
                     break;
                 case "4": //MongoDB
@@ -188,7 +239,7 @@ namespace abd
                     #region MySql
                     if (tBpass.Text.Trim() == "" || tBuser.Text.Trim() == "") //check password and user
                     {
-                        MessageBox.Show("Ingress a user and password", "Check User and Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(nouserandpassword, "Check User and Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -313,7 +364,7 @@ namespace abd
                     #region MSSQL Server
                     if (tBpass.Text.Trim() == "" || tBuser.Text.Trim() == "") //check password and user
                     {
-                        MessageBox.Show("Ingress a user and password", "Check User and Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(nouserandpassword, "Check User and Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -403,7 +454,7 @@ namespace abd
                     #region MongoDB
                     if (cBdatabases.Text.Trim() == "")
                     {
-                        MessageBox.Show("Ingress a database name", "No DB name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(nouserandpassword, "No DB name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -430,10 +481,39 @@ namespace abd
                     #endregion
                     break;
                 case "5": //ReavenDB
+                    #region ReavenDB
+                    using (var store = new DocumentStore { Url = tBhost.Text+":"+dUDport.Text }.Initialize())
+                    {
+                        //string[] getCollectionNames()
+                        //{
+                        //    using (var session = store.OpenSession())
+                        //    {
+                        //        return session.Advanced.LuceneQuery<dynamic>()
+                        //                   .SelectFields<dynamic>("@metadata")
+                        //                   .Select<dynamic, string>(x => x["@metadata"]["Raven-Entity-Name"])
+                        //                   .Distinct()
+                        //                   .ToArray();
 
+                        //    }
+                        //}
+                        using (var session = store.OpenSession(cBdatabases.Text))
+                        {
+                            
+                            string json = JsonConvert.SerializeObject(store.DatabaseCommands.GetDocuments(1, 1));
+                            MessageBox.Show(json);
+                            cBdatabases.Items.Add(json.ToString());
+                        }
+                    }
+                    //System.Diagnostics.Process.Start("http://localhost:8080");
+                    #endregion
                     break;
             }
         }
+        /// <summary>
+        /// Data for connection on DB´s mannagers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cBdbm_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (cBdbm.SelectedIndex.ToString())
@@ -465,8 +545,8 @@ namespace abd
                     break;
                 case "5": //Reaven
                     Enable();
-                    tBhost.Text = "127.0.0.1";
-                    dUDport.Text = "2713";
+                    tBhost.Text = "http://localhost";
+                    dUDport.Text = "8080";
                     break;
             }
         }
