@@ -21,7 +21,7 @@ namespace abd
 
         private void tVdata_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            SqlConnection SqlConnection = SessionManager.SqlConnection;
+            SqlConnection SqlConnection = FrmSessionManager.SqlConnection;
             try
             {
                 string bd = "USE " + tVdata.SelectedNode.Text + "; SHOW TABLES";

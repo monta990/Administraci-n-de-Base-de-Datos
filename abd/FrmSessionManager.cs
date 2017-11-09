@@ -22,7 +22,7 @@ using Raven.Imports.Newtonsoft.Json;
 
 namespace abd
 {
-    public partial class SessionManager : Form
+    public partial class FrmSessionManager : Form
     {
         public string cadena;
         private TreeView treedatabes = new TreeView();
@@ -32,7 +32,7 @@ namespace abd
         public static MongoClient MongoDBClient; //iniciar mongo
         public static IMongoDatabase MongoDatabase;
         private string nouserandpassword="Input username and password";
-        public SessionManager()
+        public FrmSessionManager()
         {
             InitializeComponent();
         }
@@ -262,7 +262,7 @@ namespace abd
                                 }
                                 lector.Close();
                                 mySqlConnection.Close();
-                                Start.ShowFrmDatabaseMySQL(treedatabes);
+                                FrmStart.ShowFrmDatabaseMySQL(treedatabes);
                                 this.Close();
                             }
                             catch (MySqlException error)
@@ -289,7 +289,7 @@ namespace abd
                                     treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                                 }
                                 lector.Close();
-                                Start.ShowFrmDatabaseMySQL(treedatabes);
+                                FrmStart.ShowFrmDatabaseMySQL(treedatabes);
                                 mySqlConnection.Close();
                                 this.Close();
                             }
@@ -323,7 +323,7 @@ namespace abd
                                 treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            Start.ShowFrmDatabasePostgreSQL(treedatabes);
+                            FrmStart.ShowFrmDatabasePostgreSQL(treedatabes);
                             npgsqlConnection.Close();
                         }
                         catch (Exception NpgsqlError)
@@ -349,7 +349,7 @@ namespace abd
                                 treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            Start.ShowFrmDatabasePostgreSQL(treedatabes);
+                            FrmStart.ShowFrmDatabasePostgreSQL(treedatabes);
                             npgsqlConnection.Close();
                             this.Close();
                         }
@@ -387,7 +387,7 @@ namespace abd
                                 }
                                 lector.Close();
                                 SqlConnection.Close();
-                                Start.ShowFrmDatabaseMSSQL(treedatabes);
+                                FrmStart.ShowFrmDatabaseMSSQL(treedatabes);
                                 this.Close();
                             }
                             catch (SqlException error)
@@ -415,7 +415,7 @@ namespace abd
                                 }
                                 lector.Close();
                                 SqlConnection.Close();
-                                Start.ShowFrmDatabaseMSSQL(treedatabes);
+                                FrmStart.ShowFrmDatabaseMSSQL(treedatabes);
                                 this.Close();
                             }
                             catch (SqlException error)

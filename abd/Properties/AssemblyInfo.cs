@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DataBase Manager")]
-[assembly: AssemblyDescription("Administration for databases")]
+[assembly: AssemblyTitle("REMI   -   DataBase Manager")]
+[assembly: AssemblyDescription("Administrator for databases")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DataBase Manager")]
+[assembly: AssemblyProduct("REMI   -   DataBase Manager")]
 [assembly: AssemblyCopyright("Copyright © Sontechs México  2017")]
 [assembly: AssemblyTrademark("Sontechs México")]
 [assembly: AssemblyCulture("")]

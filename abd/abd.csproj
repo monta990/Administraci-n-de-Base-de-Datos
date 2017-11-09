@@ -111,11 +111,11 @@
     <Compile Include="FrmDatabasePostgreSQL.Designer.cs">
       <DependentUpon>FrmDatabasePostgreSQL.cs</DependentUpon>
     </Compile>
-    <Compile Include="SessionManager.cs">
+    <Compile Include="FrmSessionManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SessionManager.Designer.cs">
-      <DependentUpon>SessionManager.cs</DependentUpon>
+    <Compile Include="FrmSessionManager.Designer.cs">
+      <DependentUpon>FrmSessionManager.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmDatabaseMySQL.cs">
       <SubType>Form</SubType>
@@ -123,11 +123,11 @@
     <Compile Include="FrmDatabaseMySQL.Designer.cs">
       <DependentUpon>FrmDatabaseMySQL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Start.cs">
+    <Compile Include="FrmStart.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Start.Designer.cs">
-      <DependentUpon>Start.cs</DependentUpon>
+    <Compile Include="FrmStart.Designer.cs">
+      <DependentUpon>FrmStart.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -140,14 +140,14 @@
     <EmbeddedResource Include="FrmDatabasePostgreSQL.resx">
       <DependentUpon>FrmDatabasePostgreSQL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SessionManager.resx">
-      <DependentUpon>SessionManager.cs</DependentUpon>
+    <EmbeddedResource Include="FrmSessionManager.resx">
+      <DependentUpon>FrmSessionManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmDatabaseMySQL.resx">
       <DependentUpon>FrmDatabaseMySQL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Start.resx">
-      <DependentUpon>Start.cs</DependentUpon>
+    <EmbeddedResource Include="FrmStart.resx">
+      <DependentUpon>FrmStart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

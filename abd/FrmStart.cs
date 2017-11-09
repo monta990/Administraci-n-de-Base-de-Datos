@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace abd
 {
-    public partial class Start : Form
+    public partial class FrmStart : Form
     {
         private int childFormNumber = 0;
 
-        public Start()
+        public FrmStart()
         {
             InitializeComponent();
         }
@@ -58,7 +58,7 @@ namespace abd
 
         private void ShowNewForm(object sender, EventArgs e)
         {
-            new SessionManager().ShowDialog();
+            new FrmSessionManager().ShowDialog();
             #region code to create new childform
             //Form childForm = new Form();
             //childForm.MdiParent = this;

@@ -1,6 +1,6 @@
 ﻿namespace abd
 {
-    partial class SessionManager
+    partial class FrmSessionManager
     {
         /// <summary>
         /// Required designer variable.

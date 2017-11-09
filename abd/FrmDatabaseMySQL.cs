@@ -29,7 +29,7 @@ namespace abd
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            MySqlConnection mySqlConnection = SessionManager.mySqlConnection;
+            MySqlConnection mySqlConnection = FrmSessionManager.mySqlConnection;
             try
             {
                 string bd = "USE " + tVdata.SelectedNode.Text + "; SHOW TABLES";
