@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace abd
 {
-    public partial class FrmDatabaseMsSQL : Form
+    public partial class FrmDatabaseSQLite : Form
     {
-        public FrmDatabaseMsSQL(TreeView treedatabases)
+        public FrmDatabaseSQLite(TreeView treedatabases)
         {
             InitializeComponent();
             this.treedatabases = treedatabases;
@@ -21,17 +21,17 @@ namespace abd
 
         private void tVdata_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            SqlConnection SqlConnection = FrmSessionManager.SqlConnection;
+            SQLiteConnection SQLiteconect = FrmSessionManager.SQLiteconect;
             try
             {
-                SqlConnection.Database.ToString();
-                string bd = "SELECT TABLE_NAME FROM " + tVdata.SelectedNode.Text + ".INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
-                SqlCommand SqlCommand = new SqlCommand(); //comando
-                SqlCommand.CommandText = bd; //comando a ejecutar
-                SqlConnection.Open();
-                SqlCommand.Connection = SqlConnection;
-                SqlCommand.ExecuteNonQuery();
-                SqlDataReader lector = SqlCommand.ExecuteReader();
+                //SQLiteconect.Database.ToString();
+                string bd = "SELECT name FROM sqlite_master WHERE type = 'table'";
+                SQLiteCommand SQLiteCommand = new SQLiteCommand(); //comando
+                SQLiteCommand.CommandText = bd; //comando a ejecutar
+                SQLiteconect.Open();
+                SQLiteCommand.Connection = SQLiteconect;
+                SQLiteCommand.ExecuteNonQuery();
+                SQLiteDataReader lector = SQLiteCommand.ExecuteReader();
                 if (tVdata.Nodes[tVdata.SelectedNode.Index].Nodes.Count >= 1)
                 {
                     tVdata.Nodes[tVdata.SelectedNode.Index].Nodes.Clear();
@@ -44,16 +44,16 @@ namespace abd
                     }
                 }
                 lector.Close();
-                SqlConnection.Close();
+                SQLiteconect.Close();
             }
-            catch (SqlException error)
+            catch (SQLiteException error)
             {
                 //MessageBox.Show("Server Down "+error, "Check Server Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                SqlConnection.Close();
+                SQLiteconect.Close();
             }
         }
 
-        private void FrmDatabaseMsSQL_Load(object sender, EventArgs e)
+        private void FrmDatabaseSQLite_Load(object sender, EventArgs e)
         {
             for (int i = 0; i < treedatabases.Nodes.Count; i++)
             {

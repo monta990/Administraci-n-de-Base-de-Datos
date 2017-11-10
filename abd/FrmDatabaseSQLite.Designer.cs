@@ -1,6 +1,6 @@
-﻿namespace abd
+namespace abd
 {
-    partial class FrmDatabasePostgreSQL
+    partial class FrmDatabaseSQLite
     {
         /// <summary>
         /// Required designer variable.
@@ -33,20 +33,21 @@
             // 
             // tVdata
             // 
-            this.tVdata.Location = new System.Drawing.Point(0, 1);
+            this.tVdata.Location = new System.Drawing.Point(1, 0);
             this.tVdata.Name = "tVdata";
-            this.tVdata.Size = new System.Drawing.Size(373, 360);
-            this.tVdata.TabIndex = 0;
+            this.tVdata.Size = new System.Drawing.Size(367, 356);
+            this.tVdata.TabIndex = 3;
             this.tVdata.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tVdata_AfterSelect);
             // 
-            // FrmDatabasePostgreSQL
+            // FrmDatabaseSQLite
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(372, 362);
+            this.ClientSize = new System.Drawing.Size(368, 357);
             this.Controls.Add(this.tVdata);
-            this.Name = "FrmDatabasePostgreSQL";
-            this.Text = "FrmDatabasePostgreSQL";
+            this.Name = "FrmDatabaseSQLite";
+            this.Text = "FrmDatabaseSQLite";
+            this.Load += new System.EventHandler(this.FrmDatabaseSQLite_Load);
             this.ResumeLayout(false);
 
         }

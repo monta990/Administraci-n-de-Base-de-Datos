@@ -43,6 +43,18 @@ namespace abd
             childForm.Width = 380;
             childForm.Show();
         }
+        static public void ShowFrmDatabaseSQLite(TreeView treedatabases) //lanzar selector de base de datos MySQL
+        {
+            FrmDatabaseSQLite childForm = new FrmDatabaseSQLite(treedatabases);
+            childForm.MdiParent = Application.OpenForms[0];
+            childForm.Text = "Database SQLite";
+            childForm.Height = Application.OpenForms[0].Height -
+                                Application.OpenForms[0].Controls[0].Height -
+                                Application.OpenForms[0].Controls[1].Height -
+                                Application.OpenForms[0].Controls[2].Height - 45;
+            childForm.Width = 380;
+            childForm.Show();
+        }
         static public void ShowFrmDatabasePostgreSQL(TreeView treedatabases) //lanzar selector de base de datos MySQL
         {
             FrmDatabasePostgreSQL childForm = new FrmDatabasePostgreSQL(treedatabases);

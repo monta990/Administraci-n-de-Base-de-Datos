@@ -28,6 +28,7 @@ namespace abd
         private TreeView treedatabes = new TreeView();
         public static SqlConnection SqlConnection; //iniciar msssql
         public static MySqlConnection mySqlConnection; //iniciar mysql
+        public static SQLiteConnection SQLiteconect; //inicar sqlite
         public static NpgsqlConnection npgsqlConnection; //iniciar postgresql
         public static MongoClient MongoDBClient; //iniciar mongo
         public static IMongoDatabase MongoDatabase;
@@ -325,6 +326,7 @@ namespace abd
                             lector.Close();
                             FrmStart.ShowFrmDatabasePostgreSQL(treedatabes);
                             npgsqlConnection.Close();
+                            this.Close();
                         }
                         catch (Exception NpgsqlError)
                         {
@@ -432,16 +434,19 @@ namespace abd
                     #region SQLite
                     if (tBhost.Text.Trim() == "")
                     {
-                        MessageBox.Show("Browse for a databese or ingress a database name", "No Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Browse for a databese or write a new database name", "No Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
                         try
                         {
-                            SQLiteConnection SQLiteconect = new SQLiteConnection("Data Source = " + tBhost.Text);
+                            SQLiteconect = new SQLiteConnection("Data Source = " + tBhost.Text);
                             SQLiteconect.Open();
-                            MessageBox.Show("Conectado a la BD");
+                            //MessageBox.Show("Conectado a la BD");
+                            treedatabes.Nodes.Add(tBhost.Text);
+                            FrmStart.ShowFrmDatabaseSQLite(treedatabes);
                             SQLiteconect.Close();
+                            this.Close();
                         }
                         catch (SQLiteException sqliterror)
                         {
@@ -574,7 +579,7 @@ namespace abd
             Db.Filter = "Database (*.db)|*.db";
             if (Db.ShowDialog() == DialogResult.OK)
             {
-                tBhost.Text = Db.FileName;
+                tBhost.Text = Db.SafeFileName;
             }
         }
         /// <summary>
