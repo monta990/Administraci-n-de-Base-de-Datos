@@ -328,7 +328,6 @@ namespace abd
                             {
                                 MessageBox.Show("Connection error, check your username, password and database and server staus", "Check data and server status", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 mySqlConnection.Close();
-                                //MessageBox.Show(error.ToString());  //mensaje de debug error
                             }
                         }
                     }
@@ -352,7 +351,6 @@ namespace abd
                             while (lector.Read()) //carga de los nombres de las base de datos
                             {
                                 treedatabes.Nodes.Add(lector.GetValue(0).ToString());
-                                //cBdatabases.Items.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
                             FrmStart.ShowFrmDatabasePostgreSQL(treedatabes);
