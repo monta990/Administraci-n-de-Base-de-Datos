@@ -13,27 +13,25 @@ namespace abd
 {
     public partial class FrmDatabasePostgreSQL : Form
     {
-        private TreeView treedatabases;
         public FrmDatabasePostgreSQL(TreeView treedatabases)
         {
             InitializeComponent();
             this.treedatabases = treedatabases;
         }
-
-        private void database_Load(object sender, EventArgs e)
+        private void FrmDatabasePostgreSQL_Load(object sender, EventArgs e)
         {
             for (int i = 0; i < treedatabases.Nodes.Count; i++)
             {
-                tVdata.Nodes.Add(treedatabases.Nodes[i].ToString());
+                tVdata.Nodes.Add(treedatabases.Nodes[i].ToString().Remove(0, 9));
             }
         }
-
+        private TreeView treedatabases;
         private void tVdata_AfterSelect(object sender, TreeViewEventArgs e)
         {
             NpgsqlConnection npgsqlConnection = FrmSessionManager.npgsqlConnection;
             try
             {
-                string bd = "SELECT table_name FROM " + tVdata.SelectedNode.Text + "";
+                string bd = "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'";
                 NpgsqlCommand npgsqlCommand = new NpgsqlCommand(); //comando
                 npgsqlCommand.CommandText = bd; //comando a ejecutar
                 npgsqlConnection.Open();

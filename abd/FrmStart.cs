@@ -12,7 +12,7 @@ namespace abd
 {
     public partial class FrmStart : Form
     {
-        private int childFormNumber = 0;
+        //private int childFormNumber = 0;
 
         public FrmStart()
         {

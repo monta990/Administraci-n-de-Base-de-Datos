@@ -32,7 +32,7 @@ namespace abd
         public static NpgsqlConnection npgsqlConnection; //iniciar postgresql
         public static MongoClient MongoDBClient; //iniciar mongo
         public static IMongoDatabase MongoDatabase;
-        private string nouserandpassword="Input username and password";
+        private string nouserandpassword="Input a username and password";
         public FrmSessionManager()
         {
             InitializeComponent();
@@ -128,10 +128,11 @@ namespace abd
                             }
                             lector.Close();
                             npgsqlConnection.Close();
+                            MessageBox.Show("Test Passed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (Exception NpgsqlError)
                         {
-                            MessageBox.Show("Connection error, check your username, password and database" + NpgsqlError);
+                            MessageBox.Show("Connection error, check your username, password and database " + NpgsqlError, "Test Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     break;
@@ -351,6 +352,7 @@ namespace abd
                             while (lector.Read()) //carga de los nombres de las base de datos
                             {
                                 treedatabes.Nodes.Add(lector.GetValue(0).ToString());
+                                //cBdatabases.Items.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
                             FrmStart.ShowFrmDatabasePostgreSQL(treedatabes);
@@ -368,7 +370,7 @@ namespace abd
                         npgsqlConnection = new NpgsqlConnection(cadena);
                         try
                         {
-                            string query = "SELECT table_name FROM information_schema.tables WHERE table_schema='" + cBdatabases.Text + "';"; //muestra las tablas de la bd seleccionada
+                            string query = "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'"; //muestra las tablas de la bd seleccionada
                             NpgsqlCommand command = new NpgsqlCommand();
                             command.CommandText = query;
                             npgsqlConnection.Open();

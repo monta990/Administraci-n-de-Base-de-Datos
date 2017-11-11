@@ -47,6 +47,7 @@
             this.Controls.Add(this.tVdata);
             this.Name = "FrmDatabasePostgreSQL";
             this.Text = "FrmDatabasePostgreSQL";
+            this.Load += new System.EventHandler(this.FrmDatabasePostgreSQL_Load);
             this.ResumeLayout(false);
 
         }
