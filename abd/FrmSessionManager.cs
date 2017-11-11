@@ -105,11 +105,39 @@ namespace abd
                     {
                         MessageBox.Show("Server Down","Check server status",MessageBoxButtons.OK,MessageBoxIcon.Error);
                     }
-                    #endregion
                     break;
-                case "1": //PostgrSQL
+                #endregion
+                case "1": //PostgreSQL
+                    #region PostgreSQL
+                    if (cBdatabases.Text.Trim() == "")
+                    {
+                        cadena = "Server=" + tBhost.Text + "; Port=" + dUDport.Text + "; User Id=" + tBuser.Text + "; Password=" + tBpass.Text;
+                        npgsqlConnection = new NpgsqlConnection(cadena);
+                        try
+                        {
+                            string query = "SELECT datname FROM pg_database WHERE datistemplate = false;";
+                            NpgsqlCommand command = new NpgsqlCommand();
+                            command.CommandText = query;
+                            npgsqlConnection.Open();
+                            command.Connection = npgsqlConnection;
+                            command.ExecuteNonQuery();
+                            NpgsqlDataReader lector = command.ExecuteReader();
+                            while (lector.Read()) //carga de los nombres de las base de datos
+                            {
+                                cBdatabases.Items.Add(lector.GetValue(0).ToString());
+                            }
+                            lector.Close();
+                            npgsqlConnection.Close();
+                        }
+                        catch (Exception NpgsqlError)
+                        {
+                            MessageBox.Show("Connection error, check your username, password and database" + NpgsqlError);
+                        }
+                    }
                     break;
+                    #endregion PostgreSQL
                 case "2": //MSSQLServer
+                    #region MSSQLServer
                     if (tBuser.Text.Trim() == "" || tBpass.Text.Trim() == "")
                     {
                         MessageBox.Show(nouserandpassword, "Check user and password", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -142,6 +170,7 @@ namespace abd
                         }
                     }
                     break;
+                    #endregion MSSQLServer
                 case "3": //SQLite
                     #region SQLite
                     if (tBhost.Text.Trim() == "")
@@ -230,7 +259,7 @@ namespace abd
             cBdatabases.Visible = true;
         }
         /// <summary>
-        /// Do a connection to selected DB
+        /// Make a connection to selected DB
         /// </summary>
         private void Connection()
         {
@@ -351,6 +380,7 @@ namespace abd
                                 treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
+                            MessageBox.Show(treedatabes.ToString());
                             FrmStart.ShowFrmDatabasePostgreSQL(treedatabes);
                             npgsqlConnection.Close();
                             this.Close();
@@ -531,7 +561,10 @@ namespace abd
                 case "1": //PostgrSQL
                     Enable();
                     tBhost.Text = "localhost";
+                    tBuser.Text = "postgres";
+                    tBpass.Text = "postgres";
                     dUDport.Text = "5432";
+                    cBdatabases.Text = "prestamos";
                     break;
                 case "2": //MSSqlServer
                     Enable();

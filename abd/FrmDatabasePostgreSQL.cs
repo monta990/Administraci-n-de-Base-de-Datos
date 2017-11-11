@@ -13,17 +13,18 @@ namespace abd
 {
     public partial class FrmDatabasePostgreSQL : Form
     {
+        private TreeView treedatabases;
         public FrmDatabasePostgreSQL(TreeView treedatabases)
         {
             InitializeComponent();
             this.treedatabases = treedatabases;
         }
-        private TreeView treedatabases;
+
         private void database_Load(object sender, EventArgs e)
         {
             for (int i = 0; i < treedatabases.Nodes.Count; i++)
             {
-                tVdata.Nodes.Add(treedatabases.Nodes[i].ToString().Remove(0, 9));
+                tVdata.Nodes.Add(treedatabases.Nodes[i].ToString());
             }
         }
 
