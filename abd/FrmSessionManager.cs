@@ -359,7 +359,6 @@ namespace abd
                                 treedatabes.Nodes.Add(lector.GetValue(0).ToString());
                             }
                             lector.Close();
-                            MessageBox.Show(treedatabes.ToString());
                             FrmStart.ShowFrmDatabasePostgreSQL(treedatabes);
                             npgsqlConnection.Close();
                             this.Close();
@@ -479,20 +478,21 @@ namespace abd
                             MongoDBClient = new MongoClient(cadena);
                             try
                             {
-                                MessageBox.Show(MongoDBClient.GetDatabase(cBdatabases.Text).ToString());
+                                MongoDBClient.GetDatabase(cBdatabases.Text).ToString();
+                               // MessageBox.Show(MongoDBClient.ListDatabases());
                             }
                             catch (MongoException error)
                             {
                                 MessageBox.Show("Server Up: "+ error, "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
-                            if (MongoDBClient.Cluster.Description.State.ToString() == "Disconnected")
-                            {
-                                MessageBox.Show("Server Down", "Server Down", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Server Up", "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
+                            //if (MongoDBClient.Cluster.Description.State.ToString() == "Disconnected")
+                            //{
+                            //    MessageBox.Show("Server Down", "Server Down", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            //}
+                            //else
+                            //{
+                            //    MessageBox.Show("Server Up", "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //}
                         }
                         catch (MongoConnectionException error)
                         {
