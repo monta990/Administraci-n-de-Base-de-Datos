@@ -14,12 +14,12 @@ using Npgsql;
 using MongoDB.Driver.Core;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 using Raven.Client.Connection;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using Raven.Json;
 using Raven.Imports.Newtonsoft.Json;
-
 namespace abd
 {
     public partial class FrmSessionManager : Form
@@ -37,28 +37,6 @@ namespace abd
         {
             InitializeComponent();
         }
-
-        #region Clase raven de te
-        public class Tea
-        {
-            public String Id { get; set; }
-
-            public String Name { get; set; }
-
-            public TeaType TeaType { get; set; }
-
-            public Double WaterTemp { get; set; }
-
-            public Int32 SleepTime { get; set; }
-        }
-        public enum TeaType
-        {
-            Black,
-            Green,
-            Yellow,
-            Oolong
-        }
-        #endregion
         private void Form1_Load(object sender, EventArgs e)
         {
             cBdbm.Text = cBdbm.Items[0].ToString(); //combobox to Index 0 (MySQL)
@@ -225,6 +203,7 @@ namespace abd
                     #endregion
                     break;
                 case "5": //RevenDB
+
                     break;
             }
         }
@@ -498,7 +477,14 @@ namespace abd
                             tBhost.Update();
                             string cadena = "mongodb://" + tBhost.Text + ":" + dUDport.Text;
                             MongoDBClient = new MongoClient(cadena);
-                            MongoDBClient.GetDatabase(cBdatabases.Text);
+                            try
+                            {
+                                MessageBox.Show(MongoDBClient.GetDatabase(cBdatabases.Text).ToString());
+                            }
+                            catch (MongoException error)
+                            {
+                                MessageBox.Show("Server Up: "+ error, "Server Up", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
                             if (MongoDBClient.Cluster.Description.State.ToString() == "Disconnected")
                             {
                                 MessageBox.Show("Server Down", "Server Down", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -519,18 +505,6 @@ namespace abd
                     #region ReavenDB
                     using (var store = new DocumentStore { Url = tBhost.Text+":"+dUDport.Text }.Initialize())
                     {
-                        //string[] getCollectionNames()
-                        //{
-                        //    using (var session = store.OpenSession())
-                        //    {
-                        //        return session.Advanced.LuceneQuery<dynamic>()
-                        //                   .SelectFields<dynamic>("@metadata")
-                        //                   .Select<dynamic, string>(x => x["@metadata"]["Raven-Entity-Name"])
-                        //                   .Distinct()
-                        //                   .ToArray();
-
-                        //    }
-                        //}
                         using (var session = store.OpenSession(cBdatabases.Text))
                         {
                             
@@ -556,6 +530,8 @@ namespace abd
                 case "0": //MySQL
                     Enable();
                     tBhost.Text = "127.0.0.1";
+                    tBuser.Text = "root";
+                    tBpass.Text = "alvarez";
                     dUDport.Text = "3306";
                     break;
                 case "1": //PostgrSQL
@@ -580,11 +556,17 @@ namespace abd
                     Enable();
                     tBhost.Text = "127.0.0.1";
                     dUDport.Text = "27017";
+                    tBuser.Text = "";
+                    tBpass.Text = "";
+                    cBdatabases.Text = "primera";
                     break;
                 case "5": //Reaven
                     Enable();
                     tBhost.Text = "http://localhost";
                     dUDport.Text = "8080";
+                    tBuser.Text = "";
+                    tBpass.Text = "";
+                    cBdatabases.Text = "primera";
                     break;
             }
         }
